@@ -1,4 +1,4 @@
-# Flowmatic CICD 🚀
+# Flowmatic CI/CD 🚀
 
 One command to create pipeline workflow file to an existing project.
 
@@ -7,10 +7,11 @@ Most of the time when we start the automation project, we may google to create t
 Hence, Flowmatic CICD is generated to help you tackle the issues.
 
 Currently, supporting some popular CI/CD:
-- GitHub
-- GitLab
-- Bitbucket
-- Azure Devops
+- GitHub - https://github.com/
+- GitLab - https://gitlab.com/
+- Bitbucket - https://bitbucket.org/
+- Azure Devops - Visit this https://azure.microsoft.com/en-us/services/devops/pipelines/ then choose Start Free with Github
+- DroneIO - https://www.drone.io/
 - More to come...
 
 # How to install
