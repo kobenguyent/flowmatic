@@ -25,5 +25,12 @@
     "replace-in-file": "^6.3.5"
   },
   "type": "module",
-  "release": { "branches": [ "main" ] }
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "devDependencies": {
+    "inquirer-test": "^2.0.1"
+  }
 }

@@ -1,9 +1,8 @@
 #!/usr/bin/env node
+import {data} from "../data/data.js";
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { fileNameFormat, getCurrentWorkingDir} from "../utils/fileHelper.js";
-
-import {data} from "../data/data.js";
 import {createPipeline} from "../utils/pipelinesHelper.js";
 
 import CFonts from 'cfonts';
