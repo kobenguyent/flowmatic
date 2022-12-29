@@ -24,5 +24,6 @@
     "move-file": "^3.0.0",
     "replace-in-file": "^6.3.5"
   },
-  "type": "module"
+  "type": "module",
+  "release": { "branches": [ "main" ] }
 }
