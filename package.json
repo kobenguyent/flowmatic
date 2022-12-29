@@ -1,8 +1,8 @@
 {
-  "name": "flowmatic",
+  "name": "flowmatic-cicd",
   "version": "1.0.0",
   "description": "workflows creation for ci/cd",
-  "main": "flowmatic.js",
+  "main": "flowmatic-cicd.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },

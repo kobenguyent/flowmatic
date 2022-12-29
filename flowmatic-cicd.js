@@ -8,7 +8,7 @@ import {createPipeline} from "./utils/pipelinesHelper.js";
 
 import CFonts from 'cfonts';
 
-CFonts.say('Flowmatic', {
+CFonts.say('Flowmatic CICD', {
     font: 'chrome',              // define the font face
     align: 'left',              // define text alignment
     colors: ['system'],         // define all colors
