@@ -1,0 +1,20 @@
+image: node:nodeVersion-alpine
+
+stages:
+  - chrome-ci
+
+variables:
+  SCREEN_WIDTH: 1920
+  SCREEN_HEIGHT: 1080
+
+services:
+  - name: selenium/standalone-chrome:latest
+
+e2e-tests-chrome:
+  stage: chrome-ci
+  before_script:
+    - npm install
+  script:
+    - runTestCommand
+  after_script:
+    - cp -r output/ ci_artifacts/

@@ -1,0 +1,29 @@
+name: WebDriver Tests
+
+on: [push]
+
+env:
+  CI: true
+  # Force terminal colors. @see https://www.npmjs.com/package/colors
+  FORCE_COLOR: 1
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - run: docker run -d --net=host --shm-size=2g selenium/standalone-chrome:3.141.59-oxygen
+      - uses: actions/checkout@v1
+      - name: Use Node.js nodeVersion
+        uses: actions/setup-node@v1
+        with:
+          node-version: nodeVersion
+      - name: npm install
+        run: |
+          npm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+      - name: Run Tests
+        run: runTestCommand

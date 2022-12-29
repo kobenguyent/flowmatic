@@ -1,0 +1,9 @@
+stages:
+  - test
+
+tests:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.29.0-focal
+  script:
+    - npm ci
+    - runTestCommand
