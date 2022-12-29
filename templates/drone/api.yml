@@ -1,0 +1,14 @@
+---
+kind: pipeline
+type: dronePipelineType
+name: default
+
+steps:
+  - name: API Tests
+    image: node:nodeVersion-alpine
+    commands:
+      - npm i
+      - runTestCommand
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true

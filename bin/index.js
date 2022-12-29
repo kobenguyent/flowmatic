@@ -31,6 +31,13 @@ inquirer
         },
         {
             type: 'list',
+            name: 'dronePipelineType',
+            message: 'Which type of pipeline do you use for DroneIO?',
+            choices: data.dronePipelineType,
+            when: (answers) => ['drone'].includes(answers.cicd.toLowerCase()) === true,
+        },
+        {
+            type: 'list',
             name: 'nodeVersion',
             message: 'Which Node version do you want to use?',
             choices: data.nodeVersion,
@@ -84,8 +91,12 @@ inquirer
             fileName = `azure-pipelines.yml`;
         }
 
+        if (pipelineType === 'drone') {
+            fileName = `.drone.yml`;
+        }
+
         try {
-            await createPipeline({ pipelineType, testType: answers.testType, testRunner: answers.testRunner, pipelinePath: pipelinePath, fileName, nodeVersion: answers.nodeVersion, runTestCommand: answers.runTestCommand })
+            await createPipeline({ pipelineType, testType: answers.testType, testRunner: answers.testRunner, pipelinePath: pipelinePath, fileName, nodeVersion: answers.nodeVersion, runTestCommand: answers.runTestCommand, dronePipelineType: answers.dronePipelineType})
             console.log(`The pipeline for ${chalk.green(answers.cicd)} could be found at: ` + chalk.blue(`${pipelinePath}/${fileName}`));
         } catch (e) {
             console.error(e);

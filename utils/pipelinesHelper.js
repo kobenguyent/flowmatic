@@ -39,7 +39,7 @@ export async function initE2ePipeline(pipelineType, testRunner, pipelinePath, fi
     await moveFile(`${pipelinePath}/${testRunner}.yml`, `${pipelinePath}/${fileName}`);
 }
 
-export async function createPipeline({pipelineType, testType, testRunner, pipelinePath, fileName, nodeVersion, runTestCommand}) {
+export async function createPipeline({pipelineType, testType, testRunner, pipelinePath, fileName, nodeVersion, runTestCommand, dronePipelineType}) {
     if (pipelinePath !== getCurrentWorkingDir()) {
         await createDir(pipelinePath);
     }
@@ -52,4 +52,8 @@ export async function createPipeline({pipelineType, testType, testRunner, pipeli
 
     await replaceTextInFile(`${pipelinePath}/${fileName}`, new RegExp(/nodeVersion/g), nodeVersion);
     await replaceTextInFile(`${pipelinePath}/${fileName}`, new RegExp(/runTestCommand/g), runTestCommand);
+
+    if (dronePipelineType) {
+        await replaceTextInFile(`${pipelinePath}/${fileName}`, new RegExp(/dronePipelineType/g), dronePipelineType);
+    }
 }

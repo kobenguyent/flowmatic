@@ -1,0 +1,14 @@
+---
+kind: pipeline
+type: dronePipelineType
+name: default
+
+steps:
+  - name: E2E tests - Playwright
+    image: mcr.microsoft.com/playwright:v1.29.0-focal
+    commands:
+      - npm i
+      - npx playwright install-deps
+      - runTestCommand
+    environment:
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
