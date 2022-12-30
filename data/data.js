@@ -9,6 +9,7 @@ export const data = {
     nodeVersion: ['14', '16', '18'],
     testType: ['api', 'e2e'],
     testRunner: ['playwright', 'puppeteer', 'wdio'],
+    npmPublishFileName: 'npm-publish.yml',
     github: {
         templatePath: `${global.flowmatic_templates_dir}/github`
     },

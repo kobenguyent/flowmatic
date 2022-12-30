@@ -28,7 +28,18 @@ export async function initApiPipeline(pipelineType, pipelinePath, fileName) {
     } catch (e) {
         console.error(`Cannot create pipeline file due to: ${e.message}`)
     }
+}
 
+export async function initPublishPipeline(pipelineType, pipelinePath) {
+    pipelineType = pipelineTypeValidation(pipelineType);
+
+    if (isFileExisting(`${data[pipelineType].templatePath}/${data.npmPublishFileName}`) === false) throw Error(`${data[pipelineType].templatePath}/${data.npmPublishFileName} is not defined.`);
+
+    try {
+        await copyFile(`${data[pipelineType].templatePath}/npm-publish*.yml`, `${pipelinePath}`, {flat: true});
+    } catch (e) {
+        console.error(`Cannot create publish pipeline file due to: ${e.message}`)
+    }
 }
 
 export async function initE2ePipeline(pipelineType, testRunner, pipelinePath, fileName) {
@@ -39,9 +50,13 @@ export async function initE2ePipeline(pipelineType, testRunner, pipelinePath, fi
     await moveFile(`${pipelinePath}/${testRunner}.yml`, `${pipelinePath}/${fileName}`);
 }
 
-export async function createPipeline({pipelineType, testType, testRunner, pipelinePath, fileName, nodeVersion, runTestCommand, dronePipelineType}) {
+export async function createPipeline({pipelineType, testType, testRunner, pipelinePath, fileName, nodeVersion, runTestCommand, dronePipelineType, npmPublish}) {
     if (pipelinePath !== getCurrentWorkingDir()) {
         await createDir(pipelinePath);
+    }
+
+    if (npmPublish === true) {
+        await initPublishPipeline(pipelineType, pipelinePath);
     }
 
     if (testType.toLowerCase() === 'api') {

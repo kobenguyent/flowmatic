@@ -30,6 +30,13 @@ inquirer
             choices: data.pipelineType.map(item => item.toUpperCase()),
         },
         {
+            type: 'confirm',
+            name: 'publish',
+            message: 'Do you want to publish nodejs package from GitHub to npm?',
+            default: false,
+            when: (answers) => ['github'].includes(answers.cicd.toLowerCase()) === true,
+        },
+        {
             type: 'list',
             name: 'dronePipelineType',
             message: 'Which type of pipeline do you use for DroneIO?',
@@ -96,8 +103,9 @@ inquirer
         }
 
         try {
-            await createPipeline({ pipelineType, testType: answers.testType, testRunner: answers.testRunner, pipelinePath: pipelinePath, fileName, nodeVersion: answers.nodeVersion, runTestCommand: answers.runTestCommand, dronePipelineType: answers.dronePipelineType})
-            console.log(`The pipeline for ${chalk.green(answers.cicd)} could be found at: ` + chalk.blue(`${pipelinePath}/${fileName}`));
+            await createPipeline({ pipelineType, testType: answers.testType, testRunner: answers.testRunner, pipelinePath: pipelinePath, fileName, nodeVersion: answers.nodeVersion, runTestCommand: answers.runTestCommand, dronePipelineType: answers.dronePipelineType, npmPublish: answers.publish})
+            console.log(`🍺 The pipeline for ${chalk.green(answers.cicd)} could be found at: ` + chalk.blue(`${pipelinePath}/${fileName}`));
+            if (answers.publish) console.log(`🍺 The npm publish pipeline for ${chalk.green(answers.cicd)} could be found at: ` + chalk.blue(`${pipelinePath}/${data.npmPublishFileName}`));
         } catch (e) {
             console.error(e);
         }
