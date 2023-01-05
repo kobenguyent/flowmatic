@@ -7,14 +7,12 @@ const runner = path.join(process.cwd(), './bin/index.js');
 describe('Flowmatic CLI', () => {
     describe('flows', () => {
         test('should see full flow', async () => {
-            let result = await run([runner], []);
+            let result = await run([runner], [ENTER, ENTER]);
             expect(result).toContain('Pipeline Creation at ease - supporting');
             expect(result).toContain('Which CI/CD are you currently using?');
 
-            result = await run([runner], [ENTER]);
             expect(result).toContain('Do you want to publish nodejs package from GitHub to npm? (y/N)');
 
-            result = await run([runner], [ENTER, ENTER]);
             expect(result).toContain('Which Node version do you want to use?');
             expect(result).toContain('14');
             expect(result).toContain('16');
