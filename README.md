@@ -12,6 +12,7 @@ Currently, supporting some popular CI/CD:
 - Bitbucket - https://bitbucket.org/
 - Azure Devops - Visit this https://azure.microsoft.com/en-us/services/devops/pipelines/ then choose Start Free with Github
 - DroneIO - https://www.drone.io/
+- Jenkins - https://www.jenkins.io/
 - More to come...
 
 # How to install
