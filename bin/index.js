@@ -86,6 +86,11 @@ inquirer
             fileName = `${fileNameFormat(answers.fileName)}.yml`;
         }
 
+        if (pipelineType === 'jenkins') {
+            pipelinePath = `${getCurrentWorkingDir()}/jenkins`;
+            fileName = `Jenkinsfile`;
+        }
+
         if (pipelineType === 'gitlab') {
             fileName = `.gitlab-ci.yml`;
         }

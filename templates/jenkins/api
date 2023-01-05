@@ -1,0 +1,12 @@
+pipeline {
+   agent { docker { image 'node:nodeVersion-alpine' } }
+   stages {
+      stage('api-tests') {
+         steps {
+            // Depends on your language / test framework
+            sh 'npm install'
+            sh 'runTestCommand'
+         }
+      }
+   }
+}
