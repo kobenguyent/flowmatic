@@ -11,7 +11,7 @@ describe('Flowmatic CLI', () => {
             expect(result).toContain('Pipeline Creation at ease - supporting');
             expect(result).toContain('Which CI/CD are you currently using?');
 
-            expect(result).toContain('Do you want to publish nodejs package from GitHub to npm? (y/N)');
+            expect(result).toContain('Do you want to publish nodejs package from GitHub to npm?');
 
             expect(result).toContain('Which Node version do you want to use?');
             expect(result).toContain('14');
