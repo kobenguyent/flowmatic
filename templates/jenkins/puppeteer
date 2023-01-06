@@ -1,5 +1,5 @@
 pipeline {
-   agent { docker { image 'mcr.microsoft.com/playwright:v1.29.0-focal' } }
+   agent { docker { image 'ghcr.io/puppeteer/puppeteer:19.4.1' } }
    stages {
       stage('e2e-tests-puppeteer') {
          steps {
