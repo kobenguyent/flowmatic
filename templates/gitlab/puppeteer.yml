@@ -1,0 +1,9 @@
+stages:
+  - test
+
+tests:
+  stage: test
+  image: ghcr.io/puppeteer/puppeteer:19.4.1
+  script:
+    - npm ci
+    - runTestCommand
