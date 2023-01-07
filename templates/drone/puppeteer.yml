@@ -4,8 +4,8 @@ type: dronePipelineType
 name: default
 
 steps:
-  - name: E2E tests - Playwright
-    image: mcr.microsoft.com/playwright:v1.29.0-focal
+  - name: E2E tests - Puppeteer
+    image: ghcr.io/puppeteer/puppeteer:19.4.1
     commands:
       - npm i
       - runTestCommand
