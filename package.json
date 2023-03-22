@@ -4,12 +4,16 @@
   "description": "workflows creation for ci/cd",
   "bin": "bin/index.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testTimeout=10000"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testTimeout=10000",
+    "code:lint": "rome check ."
   },
   "keywords": [
     "gitlab",
     "github",
     "actions",
+    "azure",
+    "jenkins",
+    "roma",
     "ci/cd"
   ],
   "author": "peterngtr",
@@ -31,6 +35,8 @@
     ]
   },
   "devDependencies": {
-    "inquirer-test": "^2.0.1"
+    "inquirer-test": "^2.0.1",
+    "roma": "^0.0.6",
+    "rome": "^11.0.0"
   }
 }

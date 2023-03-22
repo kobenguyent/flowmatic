@@ -8,20 +8,20 @@ env:
   FORCE_COLOR: 1
 
 jobs:
-  build:
-
+  run-tests:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 14
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       - name: Install deps
         run: npm i
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+      - name: Lint check
+        run: npm run code:lint
       - name: Run Tests
         run: npm run test

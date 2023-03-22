@@ -1,5 +1,9 @@
-import {isFileExisting} from "../utils/fileHelper.js";
+import { isFileExisting } from "../utils/fileHelper.js";
 
 export function init() {
-    global.flowmatic_dir = isFileExisting('./node_modules/flowmatic-cicd/package.json') ? './node_modules/flowmatic-cicd' : '.'
+	global.flowmatic_dir = isFileExisting(
+		"./node_modules/flowmatic-cicd/package.json",
+	)
+		? "./node_modules/flowmatic-cicd"
+		: ".";
 }
