@@ -3,7 +3,7 @@ import { data } from "../data/data.js";
 
 export async function initRome(path) {
 	try {
-		await copyFile(`${data.roma.templatePath}/rome.json`, path, { flat: true });
+		await copyFile(`${data.rome.templatePath}/rome.json`, path, { flat: true });
 		console.log("Please run npm install --save-dev rome to install Rome");
 		console.log(
 			'🍺 To format code add this to your package.json: "code:format": "npx rome format"',

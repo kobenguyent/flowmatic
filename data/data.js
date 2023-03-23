@@ -28,7 +28,7 @@ export const data = {
 	jenkins: {
 		templatePath: `${global.flowmatic_templates_dir}/jenkins`,
 	},
-	roma: {
-		templatePath: `${global.flowmatic_templates_dir}/roma`,
+	rome: {
+		templatePath: `${global.flowmatic_templates_dir}/rome`,
 	},
 };
