@@ -1,0 +1,16 @@
+{
+  "source": {
+    "include": ["./bin/", "./cmd/", "./utils/", "./data/"],
+    "includePattern": "\\.(js)$",
+    "exclude": ["node_modules/", "__test__/"]
+  },
+  "opts": {
+    "destination": "./docs/",
+    "readme": "./README.md"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}
