@@ -292,3 +292,75 @@ Gets the templates directory path
 
 ---
 
+### utils/fileHelper.js
+
+#### `validatePath()`
+
+Validates and sanitizes a file path
+
+**Parameters:**
+- `filePath` (`string`) - The file path to validate
+
+**Returns:** `string` - The sanitized path
+
+**Throws:** `Error` - If path is invalid or potentially dangerous
+
+---
+
+#### `validateFileName()`
+
+Validates and sanitizes a file name
+
+**Parameters:**
+- `fileName` (`string`) - The file name to validate
+
+**Returns:** `string` - The sanitized file name
+
+---
+
+### utils/pipelinesHelper.js
+
+#### `pipelineTypeValidation()`
+
+Validates pipeline type and returns normalized value
+
+**Parameters:**
+- `pipelineType` (`string`) - The pipeline type to validate
+
+**Returns:** `string` - The validated and normalized pipeline type
+
+**Throws:** `Error` - If pipeline type is not supported
+
+---
+
+#### `testRunnerValidation()`
+
+Validates test runner and returns normalized value
+
+**Parameters:**
+- `testRunner` (`string`) - The test runner to validate
+
+**Returns:** `string` - The validated and normalized test runner
+
+**Throws:** `Error` - If test runner is not supported
+
+---
+
+### cmd/init.js
+
+#### `getFlowmaticDir()`
+
+Safely resolves the flowmatic directory path Checks multiple possible locations in order of preference
+
+**Returns:** `string` - The resolved flowmatic directory path
+
+---
+
+#### `getTemplatesDir()`
+
+Gets the templates directory path
+
+**Returns:** `string` - The templates directory path
+
+---
+
