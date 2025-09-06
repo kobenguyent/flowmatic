@@ -11,19 +11,23 @@ describe("copyFile", () => {
 			expect(await copyFile("", "")).toEqual(undefined);
 		} catch (e) {
 			expect(e.message).toEqual(
-				"Error occurred when trying to copy file: CpyError: `source` and `destination` required",
+				"Error occurred when trying to copy file: Error: File path must be a non-empty string",
 			);
 		}
 	});
 });
 
 describe("fileNameFormat", () => {
-	test("should replace space with -", async () => {
-		expect(await fileNameFormat("hello world")).toEqual("hello-world");
+	test("should replace all spaces with -", async () => {
+		expect(await fileNameFormat("hello world test")).toEqual("hello-world-test");
 	});
 
 	test("should trim the spaces", async () => {
 		expect(await fileNameFormat(" hello world ")).toEqual("hello-world");
+	});
+	
+	test("should handle multiple consecutive spaces", async () => {
+		expect(await fileNameFormat("hello   world")).toEqual("hello-world");
 	});
 });
 
@@ -38,7 +42,7 @@ describe("isFileExisting", () => {
 });
 
 describe("getCurrentWorkingDir", () => {
-	test("should return false when file is not existed", async () => {
+	test("should return current working directory", async () => {
 		expect(getCurrentWorkingDir()).toContain("flowmatic");
 	});
 });
