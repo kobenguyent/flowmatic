@@ -1,7 +1,7 @@
-import { init } from "../cmd/init.js";
+import { init, getTemplatesDir } from "../cmd/init.js";
 init();
 
-global.flowmatic_templates_dir = `${global.flowmatic_dir}/templates`;
+const templatesDir = getTemplatesDir();
 
 export const data = {
 	pipelineType: ["github", "gitlab", "bitbucket", "azure", "drone", "jenkins"],
@@ -11,24 +11,24 @@ export const data = {
 	testRunner: ["playwright", "puppeteer", "wdio"],
 	npmPublishFileName: "npm-publish.yml",
 	github: {
-		templatePath: `${global.flowmatic_templates_dir}/github`,
+		templatePath: `${templatesDir}/github`,
 	},
 	gitlab: {
-		templatePath: `${global.flowmatic_templates_dir}/gitlab`,
+		templatePath: `${templatesDir}/gitlab`,
 	},
 	bitbucket: {
-		templatePath: `${global.flowmatic_templates_dir}/bitbucket`,
+		templatePath: `${templatesDir}/bitbucket`,
 	},
 	azure: {
-		templatePath: `${global.flowmatic_templates_dir}/azure`,
+		templatePath: `${templatesDir}/azure`,
 	},
 	drone: {
-		templatePath: `${global.flowmatic_templates_dir}/drone`,
+		templatePath: `${templatesDir}/drone`,
 	},
 	jenkins: {
-		templatePath: `${global.flowmatic_templates_dir}/jenkins`,
+		templatePath: `${templatesDir}/jenkins`,
 	},
 	rome: {
-		templatePath: `${global.flowmatic_templates_dir}/rome`,
+		templatePath: `${templatesDir}/rome`,
 	},
 };

@@ -2,11 +2,12 @@
 import { data } from "../data/data.js";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { fileNameFormat, getCurrentWorkingDir } from "../utils/fileHelper.js";
+import { fileNameFormat, getCurrentWorkingDir, validateFileName } from "../utils/fileHelper.js";
 import { createPipeline } from "../utils/pipelinesHelper.js";
+import path from "path";
 
 import CFonts from "cfonts";
-import { initRome } from "../utils/romeHepler.js";
+import { initRome } from "../utils/romeHelper.js";
 
 CFonts.say("Flowmatic CICD", {
 	font: "chrome", // define the font face
@@ -83,46 +84,60 @@ inquirer
 			default: "run test",
 			when: (answers) =>
 				["github"].includes(answers.cicd.toLowerCase()) === true,
+			validate: (input) => {
+				try {
+					validateFileName(input);
+					return true;
+				} catch (error) {
+					return `Invalid file name: ${error.message}`;
+				}
+			},
 		},
 		{
 			type: "input",
 			name: "runTestCommand",
 			message: "What is your command to run tests?",
 			default: "npm run test",
+			validate: (input) => {
+				if (!input || input.trim().length === 0) {
+					return "Test command cannot be empty";
+				}
+				return true;
+			},
 		},
 	])
 	.then(async (answers) => {
-		let pipelinePath = getCurrentWorkingDir();
-		let fileName;
-		const pipelineType = answers.cicd.toLowerCase();
-
-		if (pipelineType === "github") {
-			pipelinePath = `${getCurrentWorkingDir()}/.github/workflows`;
-			fileName = `${fileNameFormat(answers.fileName)}.yml`;
-		}
-
-		if (pipelineType === "jenkins") {
-			pipelinePath = `${getCurrentWorkingDir()}/jenkins`;
-			fileName = "Jenkinsfile";
-		}
-
-		if (pipelineType === "gitlab") {
-			fileName = ".gitlab-ci.yml";
-		}
-
-		if (pipelineType === "bitbucket") {
-			fileName = "bitbucket-pipelines.yml";
-		}
-
-		if (pipelineType === "azure") {
-			fileName = "azure-pipelines.yml";
-		}
-
-		if (pipelineType === "drone") {
-			fileName = ".drone.yml";
-		}
-
 		try {
+			let pipelinePath = getCurrentWorkingDir();
+			let fileName;
+			const pipelineType = answers.cicd.toLowerCase();
+
+			if (pipelineType === "github") {
+				pipelinePath = path.join(getCurrentWorkingDir(), ".github", "workflows");
+				fileName = `${fileNameFormat(answers.fileName)}.yml`;
+			}
+
+			if (pipelineType === "jenkins") {
+				pipelinePath = path.join(getCurrentWorkingDir(), "jenkins");
+				fileName = "Jenkinsfile";
+			}
+
+			if (pipelineType === "gitlab") {
+				fileName = ".gitlab-ci.yml";
+			}
+
+			if (pipelineType === "bitbucket") {
+				fileName = "bitbucket-pipelines.yml";
+			}
+
+			if (pipelineType === "azure") {
+				fileName = "azure-pipelines.yml";
+			}
+
+			if (pipelineType === "drone") {
+				fileName = ".drone.yml";
+			}
+
 			await createPipeline({
 				pipelineType,
 				testType: answers.testType,
@@ -134,21 +149,33 @@ inquirer
 				dronePipelineType: answers.dronePipelineType,
 				npmPublish: answers.publish,
 			});
-			if (answers.codeformat) await initRome(getCurrentWorkingDir());
+			
+			if (answers.codeformat) {
+				await initRome(getCurrentWorkingDir());
+			}
+			
 			console.log(
 				`🍺 The pipeline for ${chalk.green(
 					answers.cicd,
-				)} could be found at: ${chalk.blue(`${pipelinePath}/${fileName}`)}`,
+				)} could be found at: ${chalk.blue(path.join(pipelinePath, fileName))}`,
 			);
-			if (answers.publish)
+			
+			if (answers.publish) {
 				console.log(
 					`🍺 The npm publish pipeline for ${chalk.green(
 						answers.cicd,
 					)} could be found at: ${chalk.blue(
-						`${pipelinePath}/${data.npmPublishFileName}`,
+						path.join(pipelinePath, data.npmPublishFileName),
 					)}`,
 				);
+			}
 		} catch (e) {
-			console.error(e);
+			console.error(chalk.red(`❌ Error: ${e.message}`));
+			console.error("Please check the error details above and try again.");
+			process.exit(1);
 		}
+	})
+	.catch((error) => {
+		console.error(chalk.red(`❌ Unexpected error: ${error.message}`));
+		process.exit(1);
 	});

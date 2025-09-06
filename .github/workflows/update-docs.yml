@@ -1,0 +1,68 @@
+name: Update README API Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'utils/**/*.js'
+      - 'cmd/**/*.js'
+      - 'bin/**/*.js'
+      - 'data/**/*.js'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'utils/**/*.js'
+      - 'cmd/**/*.js'
+      - 'bin/**/*.js'
+      - 'data/**/*.js'
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm i
+        
+      - name: Update README with API documentation
+        run: npm run docs:update-readme
+        
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Commit and push if changed
+        if: steps.verify-changed-files.outputs.changed == 'true' && github.event_name == 'push'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "docs: auto-update API documentation from JSDoc comments [skip ci]"
+          git push
+          
+      - name: Comment on PR if changed
+        if: steps.verify-changed-files.outputs.changed == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 **API Documentation Updated**\n\nThe README has been automatically updated with the latest API documentation from JSDoc comments. Please review the changes in the Files tab.'
+            })

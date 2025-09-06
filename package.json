@@ -5,7 +5,9 @@
   "bin": "bin/index.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testTimeout=10000",
-    "code:lint": "rome check ."
+    "code:lint": "rome check .",
+    "docs:generate": "jsdoc -c jsdoc.json",
+    "docs:update-readme": "node scripts/update-readme-api.js"
   },
   "keywords": [
     "gitlab",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "inquirer-test": "^2.0.1",
+    "jsdoc": "^4.0.4",
     "roma": "^0.0.6",
     "rome": "^11.0.0"
   }
