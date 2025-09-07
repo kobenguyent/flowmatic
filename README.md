@@ -78,18 +78,97 @@ The interactive CLI will guide you through:
 Flowmatic can also be used programmatically in your Node.js applications:
 
 ```javascript
-import { createPipeline } from 'flowmatic-cicd/utils/pipelinesHelper.js';
+import { generateWorkflowContent } from 'flowmatic-cicd';
 
-await createPipeline({
+const result = await generateWorkflowContent({
   pipelineType: 'github',
   testType: 'e2e',
   testRunner: 'playwright',
-  pipelinePath: './.github/workflows',
-  fileName: 'ci.yml',
   nodeVersion: '18',
   runTestCommand: 'npm run test:e2e',
   npmPublish: false
 });
+
+// result.files[0].content contains the complete workflow YAML
+console.log(result.files[0].content);
+```
+
+### Available API Functions
+
+- **`getAvailableTemplates()`** - Get all supported platforms and configurations
+- **`validateConfiguration(config)`** - Validate configuration parameters
+- **`generateWorkflowContent(config)`** - Generate workflow content as strings
+- **`generateWorkflowContentWithFileName(config, fileName)`** - Generate with custom file names
+
+### Web Application Integration
+
+The public API makes it easy to integrate Flowmatic into web applications:
+
+```javascript
+import { getAvailableTemplates, generateWorkflowContent } from 'flowmatic-cicd';
+
+// Get available options for UI dropdowns
+const templates = getAvailableTemplates();
+
+// Generate workflow content based on user selection
+const workflowContent = generateWorkflowContent({
+  pipelineType: 'github',
+  testType: 'api',
+  nodeVersion: '18',
+  runTestCommand: 'npm test'
+});
+
+// Display content for user to copy
+console.log(workflowContent.files[0].content);
+```
+
+### Example: React Integration
+
+```jsx
+import React, { useState } from 'react';
+import { generateWorkflowContent, getAvailableTemplates } from 'flowmatic-cicd';
+
+function WorkflowGenerator() {
+    const [config, setConfig] = useState({
+        pipelineType: 'github',
+        testType: 'api',
+        nodeVersion: '18',
+        runTestCommand: 'npm test'
+    });
+    const [generatedContent, setGeneratedContent] = useState('');
+    
+    const templates = getAvailableTemplates();
+    
+    const handleGenerate = () => {
+        try {
+            const result = generateWorkflowContent(config);
+            setGeneratedContent(result.files[0].content);
+        } catch (error) {
+            console.error('Error generating workflow:', error);
+        }
+    };
+    
+    return (
+        <div>
+            <h2>Generate CI/CD Workflow</h2>
+            <select value={config.pipelineType} onChange={e => 
+                setConfig({...config, pipelineType: e.target.value})}>
+                {templates.pipelineTypes.map(type => 
+                    <option key={type} value={type}>{type}</option>
+                )}
+            </select>
+            <button onClick={handleGenerate}>Generate Workflow</button>
+            {generatedContent && (
+                <div>
+                    <button onClick={() => navigator.clipboard.writeText(generatedContent)}>
+                        Copy to Clipboard
+                    </button>
+                    <pre>{generatedContent}</pre>
+                </div>
+            )}
+        </div>
+    );
+}
 ```
 
 ### File Structure

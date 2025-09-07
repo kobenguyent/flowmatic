@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "workflows creation for ci/cd",
   "bin": "bin/index.js",
+  "main": "api/index.js",
+  "exports": {
+    ".": "./api/index.js",
+    "./api": "./api/index.js",
+    "./cli": "./bin/index.js"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testTimeout=10000",
     "code:lint": "rome check .",
