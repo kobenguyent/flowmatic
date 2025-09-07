@@ -93,7 +93,12 @@ const result = await generateWorkflowContent({
 console.log(result.files[0].content);
 ```
 
-For detailed API documentation, see [API Documentation](docs/api.md).
+### Available API Functions
+
+- **`getAvailableTemplates()`** - Get all supported platforms and configurations
+- **`validateConfiguration(config)`** - Validate configuration parameters
+- **`generateWorkflowContent(config)`** - Generate workflow content as strings
+- **`generateWorkflowContentWithFileName(config, fileName)`** - Generate with custom file names
 
 ### Web Application Integration
 
@@ -115,6 +120,55 @@ const workflowContent = generateWorkflowContent({
 
 // Display content for user to copy
 console.log(workflowContent.files[0].content);
+```
+
+### Example: React Integration
+
+```jsx
+import React, { useState } from 'react';
+import { generateWorkflowContent, getAvailableTemplates } from 'flowmatic-cicd';
+
+function WorkflowGenerator() {
+    const [config, setConfig] = useState({
+        pipelineType: 'github',
+        testType: 'api',
+        nodeVersion: '18',
+        runTestCommand: 'npm test'
+    });
+    const [generatedContent, setGeneratedContent] = useState('');
+    
+    const templates = getAvailableTemplates();
+    
+    const handleGenerate = () => {
+        try {
+            const result = generateWorkflowContent(config);
+            setGeneratedContent(result.files[0].content);
+        } catch (error) {
+            console.error('Error generating workflow:', error);
+        }
+    };
+    
+    return (
+        <div>
+            <h2>Generate CI/CD Workflow</h2>
+            <select value={config.pipelineType} onChange={e => 
+                setConfig({...config, pipelineType: e.target.value})}>
+                {templates.pipelineTypes.map(type => 
+                    <option key={type} value={type}>{type}</option>
+                )}
+            </select>
+            <button onClick={handleGenerate}>Generate Workflow</button>
+            {generatedContent && (
+                <div>
+                    <button onClick={() => navigator.clipboard.writeText(generatedContent)}>
+                        Copy to Clipboard
+                    </button>
+                    <pre>{generatedContent}</pre>
+                </div>
+            )}
+        </div>
+    );
+}
 ```
 
 ### File Structure
