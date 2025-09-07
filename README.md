@@ -78,18 +78,43 @@ The interactive CLI will guide you through:
 Flowmatic can also be used programmatically in your Node.js applications:
 
 ```javascript
-import { createPipeline } from 'flowmatic-cicd/utils/pipelinesHelper.js';
+import { generateWorkflowContent } from 'flowmatic-cicd';
 
-await createPipeline({
+const result = await generateWorkflowContent({
   pipelineType: 'github',
   testType: 'e2e',
   testRunner: 'playwright',
-  pipelinePath: './.github/workflows',
-  fileName: 'ci.yml',
   nodeVersion: '18',
   runTestCommand: 'npm run test:e2e',
   npmPublish: false
 });
+
+// result.files[0].content contains the complete workflow YAML
+console.log(result.files[0].content);
+```
+
+For detailed API documentation, see [API Documentation](docs/api.md).
+
+### Web Application Integration
+
+The public API makes it easy to integrate Flowmatic into web applications:
+
+```javascript
+import { getAvailableTemplates, generateWorkflowContent } from 'flowmatic-cicd';
+
+// Get available options for UI dropdowns
+const templates = getAvailableTemplates();
+
+// Generate workflow content based on user selection
+const workflowContent = generateWorkflowContent({
+  pipelineType: 'github',
+  testType: 'api',
+  nodeVersion: '18',
+  runTestCommand: 'npm test'
+});
+
+// Display content for user to copy
+console.log(workflowContent.files[0].content);
 ```
 
 ### File Structure
