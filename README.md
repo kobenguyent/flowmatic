@@ -292,7 +292,7 @@ ISC License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Made with ❤️ by [peterngtr](https://github.com/peterngtr)**
+**Made with ❤️ by [kobet](https://github.com/kobenguyent)**
 
 
 ## API Documentation
